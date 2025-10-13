@@ -1,0 +1,36 @@
+{
+  "name": "CRM-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "type": "module",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "exceljs": "^4.4.0",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.45",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.9.6",
+    "node-cron": "^3.0.3",
+    "sharp": "^0.33.5",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@eslint/json": "^0.13.2",
+    "eslint": "^9.36.0",
+    "globals": "^16.4.0",
+    "nodemon": "^3.1.0"
+  }
+}
