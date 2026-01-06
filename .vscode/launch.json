@@ -1,0 +1,22 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Iniciar el programa",
+      "skipFiles": ["<node_internals>/**"],
+      "program": "${workspaceFolder}\\src\\app.js"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug con Nodemon",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}\\src\\app.js",
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
+  ]
+}

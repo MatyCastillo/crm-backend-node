@@ -2,6 +2,12 @@
 import app from './app.js';
 import userRoutes from './routes/userRoutes.js';
 import process from "process"
+import sequelize, { testConnection } from './database/index.js';
+
+
+await testConnection();
+
+await sequelize.sync();
 
 // Configurar las rutas
 app.use('/users', userRoutes);
