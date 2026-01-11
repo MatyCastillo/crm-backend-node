@@ -6,11 +6,10 @@ import process from "process"
 const authController = {
   // Controlador para el inicio de sesión
   login: async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
-      // Buscar al usuario por nombre de usuario
-      const user = await UserModel.getUserByUsername(username);
+      const user = await UserModel.getUserByUsername(email);
       
       // Verificar si el usuario existe
       if (!user) {
@@ -30,19 +29,18 @@ const authController = {
       // Generar un token JWT
       const token = jwt.sign(
         { username: user.username },
-        process.env.JWT_SECRET, // Utilizar la clave secreta de las variables de entorno
-        { expiresIn: '12h' } // Tiempo de expiración del token
+        process.env.JWT_SECRET,
+        { expiresIn: '30d' } 
       );
 
       // Devolver el token en la respuesta
       res.status(200).json({
-        message: 'Inicio de sesión exitoso',
+        message: 'Inicio de sesión OK',
         token: token,
         user: {
           id: user.id,
           username: user.name,
           userType: user.role,
-          branch: user.branch,
           user: user.username
         }
       });

@@ -1,5 +1,4 @@
 import UserModel from "../models/userModel.js";
-import logger from "../utils/logger.js"; // Importar el logger
 // import db from "../database/models/index.js";
 
 const UserController = {
@@ -15,7 +14,6 @@ const UserController = {
       const userId = await UserModel.createUser(userData);
       res.status(201).json({ id: userId }); 
     } catch (error) {
-      logger(error); 
       res.status(400).json({ message: error.message, error: error });
     }
   },
@@ -42,7 +40,6 @@ const UserController = {
       }
     } catch (error) {
       console.error("Error al actualizar el usuario:", error);
-      logger(error);
       res.status(400).json({ message: error.message });
     }
   },
@@ -58,7 +55,6 @@ const UserController = {
       }
     } catch (error) {
       console.error("Error al eliminar el usuario:", error);
-      logger(error);
       res.status(400).json({ message: error.message });
     }
   },
@@ -69,7 +65,6 @@ const UserController = {
       res.status(200).json(users);
     } catch (error) {
       console.error("Error al obtener todos los usuarios:", error);
-      logger(error);
       res.status(400).json({ message: error.message });
     }
   },
@@ -85,7 +80,6 @@ const UserController = {
       }
     } catch (error) {
       console.error("Error al obtener usuario por nombre de usuario:", error);
-      logger(error);
       res.status(400).json({ message: error.message });
     }
   },
@@ -105,7 +99,6 @@ const UserController = {
       }
     } catch (error) {
       console.error("Error al actualizar last_login:", error);
-      logger(error); // Registrar el error
       res.status(400).json({ message: error.message }); // Devolver un mensaje de error
     }
   },

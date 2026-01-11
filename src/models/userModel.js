@@ -16,7 +16,7 @@ const UserModel = {
 
   createUser: async (userData) => {
     try {
-      const { name, email, password } = userData;
+      const { name, email, password,role } = userData;
 
       const existingUser = await db.User.findOne({ where: { email } });
       if (existingUser) {
@@ -28,6 +28,7 @@ const UserModel = {
       const newUser = await db.User.create({
         name,
         email,
+        role,
         password: hashedPassword,
       });
       return newUser.id;
@@ -54,7 +55,7 @@ const UserModel = {
 
   updateUserById: async (userId, userData) => {
     try {
-      const { name, email, password } = userData;
+      const { name, email, password,role } = userData;
       const user = await db.User.findOne({ where: { id: userId } });
       let hashedPassword;
 
@@ -78,6 +79,7 @@ const UserModel = {
           name,
           email,
           password: hashedPassword,
+          role
         },
         {
           where: { id: userId },
@@ -106,23 +108,36 @@ const UserModel = {
     }
   },
 
-  // Actualizar la última vez que el usuario inició sesión (last_login)
-  // updateLastLogin: async (userId) => {
-  //   try {
-  //     const connection = await pool.getConnection(); // Obtener la conexión a la base de datos
+    getUserByUsername: async (username) => {
+    try {
+      const user = await db.User.findOne({ where: { email: username } });
+      if (!user) {
+        throw new Error("Usuario no encontrado");
+      }
+      return user;
+    } catch (error) {
+      logger(error);
+      throw error;
+    }
+  },
 
-  //     const sql = `UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = ?`;
-  //     const [result] = await connection.query(sql, [userId]);
-
-  //     connection.release(); // Liberar la conexión
-
-  //     return result.affectedRows > 0;
-  //   } catch (error) {
-  //     console.error("Error al actualizar last_login:", error);
-  //     logger(error); // Registrar el error
-  //     throw error; // Relanzar el error para manejarlo en otro lugar si es necesario
-  //   }
-  // },
+  updateLastLogin: async (userId) => {
+    try {
+      const [affectedRows] = await db.User.update(
+        {
+          lastLogin: Date()
+        },
+        {
+          where: { id: userId },
+        }
+      );
+    return affectedRows > 0 ? userId : null;
+    } catch (error) {
+      console.error("Error al actualizar last_login:", error);
+      logger(error);
+      throw error;
+    }
+  },
 };
 
 export default UserModel;

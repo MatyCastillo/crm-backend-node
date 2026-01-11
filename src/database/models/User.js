@@ -6,6 +6,7 @@ const User = sequelize.define("User", {
   name: DataTypes.STRING(100),
   email: { type: DataTypes.STRING(150), unique: true },
   password: DataTypes.STRING(255),
+  role: DataTypes.STRING(50),
   lastConnection: DataTypes.DATE,
   createDate: DataTypes.DATE,
   updateDate: DataTypes.DATE

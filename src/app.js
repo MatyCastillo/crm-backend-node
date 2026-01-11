@@ -9,6 +9,8 @@ import  vaccinationRoutes from './routes/vaccinationRoutes.js';
 import  prescriptionRoutes from './routes/prescriptionRoutes.js';
 import { fileURLToPath } from "url";
 import  path from 'path';
+import sequelize, { testConnection } from './database/index.js';
+import createMasterUser from './database/init.js';
 
 import swaggerUi from "swagger-ui-express";
 import swaggerJsdoc from "swagger-jsdoc";
@@ -27,7 +29,7 @@ const swaggerSpec = swaggerJsdoc({
       description: "Documentación de la API con Swagger",
     },
   },
-  apis: ["./routes/*.js"], // 👈 acá apuntás a tus archivos de rutas
+  apis: ["./routes/*.js"], 
 });
 
 
@@ -66,7 +68,17 @@ app.get('/*', function(req, res) {
   });
 });
 
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Servidor iniciado en http://localhost:${PORT}`);
-});
+(async () => {
+  await testConnection();
+  await sequelize.sync();
+  //Usuario Master por defecto
+  await createMasterUser();
+  
+  // Configurar rutas
+  app.use('/users', userRoutes);
+  
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Servidor iniciado en http://localhost:${PORT}`);
+  });
+})();
